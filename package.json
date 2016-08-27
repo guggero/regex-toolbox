@@ -1,0 +1,33 @@
+{
+  "name": "regex-toolbox",
+  "version": "1.0.0",
+  "description": "Rename files with regular expressions.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guggero/regex-toolbox.git"
+  },
+  "keywords": [
+    "regular",
+    "expression",
+    "regex",
+    "tool",
+    "toolbox",
+    "file",
+    "rename",
+    "directory",
+    "recursive"
+  ],
+  "author": "guggero",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/guggero/regex-toolbox/issues"
+  },
+  "homepage": "https://github.com/guggero/regex-toolbox",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.0"
+  }
+}
