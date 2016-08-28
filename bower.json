@@ -1,0 +1,33 @@
+{
+  "name": "regex-toolbox",
+  "description": "Rename files with regular expressions.",
+  "main": "main.js",
+  "authors": [
+    "guggero"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "regular",
+    "expression",
+    "regex",
+    "tool",
+    "toolbox",
+    "file",
+    "rename",
+    "directory",
+    "recursive"
+  ],
+  "homepage": "https://github.com/guggero/regex-toolbox",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "^1.1.0",
+    "angular-route": "^1.5.8"
+  }
+}
