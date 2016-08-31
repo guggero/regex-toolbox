@@ -1,20 +1,20 @@
 (function () {
   'use strict';
 
-  angular.module('regex-toolbox', [
-    'ngRoute',
-    'ngMaterial',
-    'ngAnimate',
+  var jquery = window.jQuery = require('jquery');
 
-    'file-rename'
-  ])
-    .config(appConfig);
+  angular
+    .module('regex-toolbox', [
+      // Angular modules
+      'ngAnimate',
+      'ngMaterial',
 
-  function appConfig($routeProvider) {
-    $routeProvider.when('/', {
-      template: '<file-rename></file-rename>',
-    });
-    $routeProvider.otherwise({redirectTo: '/'});
-  }
+      // Third-party modules
+      'ui.router',
+      'pascalprecht.translate',
+
+      // App modules
+      'file-rename'
+    ]);
 
 })();

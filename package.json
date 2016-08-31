@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Rename files with regular expressions.",
   "scripts": {
-    "start": "electron ."
+    "start": "electron build"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "gulp": "^3.9.1",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-inject": "^4.1.0",
+    "gulp-install": "^0.6.0",
     "gulp-load-plugins": "^1.2.4",
     "gulp-uglify": "^2.0.0",
     "gulp-usemin": "^0.3.24",

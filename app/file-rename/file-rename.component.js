@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  var fs = require('fs'),
+    path = require('path');
+
   angular
     .module('file-rename.component', [])
     .component('fileRename', {
@@ -10,15 +13,23 @@
       controllerAs: 'vm'
     });
 
-  function FileRenameController() {
+  function FileRenameController($scope) {
     var vm = this;
+
+    vm.dirs = [];
 
     activate();
 
     ///////////
 
     function activate() {
-      vm.test = 'bla';
+      fs.readdir('.', function (err, files) {
+        if (err) {
+          console.log(err);
+        }
+        vm.dirs = files;
+        $scope.$apply();
+      });
     }
 
   }

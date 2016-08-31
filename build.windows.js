@@ -42,12 +42,12 @@ function updateResources() {
   var deferred = Q.defer();
 
   // Copy your icon from resource folder into build folder.
-  projectDir.copy('resources/windows/icon.ico', buildDir.path('icon.ico'));
+  projectDir.copy('assets/windows/icon.ico', buildDir.path('icon.ico'));
 
   // Replace Electron icon for your own.
   var rcedit = require('rcedit');
   rcedit(buildDir.path('electron.exe'), {
-    'icon': projectDir.path('resources/windows/icon.ico'),
+    'icon': projectDir.path('assets/windows/icon.ico'),
     'version-string': {
       'ProductName': manifest.name,
       'FileDescription': manifest.description,
@@ -75,7 +75,7 @@ function createInstaller() {
     return str;
   }
 
-  var installScript = projectDir.read('resources/windows/installer.nsi');
+  var installScript = projectDir.read('assets/windows/installer.nsi');
 
   installScript = replace(installScript, {
     name: manifest.name,
@@ -85,7 +85,7 @@ function createInstaller() {
     dest: projectDir.path('dist/Installer.exe'),
     icon: buildDir.path('icon.ico'),
     setupIcon: buildDir.path('icon.ico'),
-    banner: projectDir.path('resources/windows/banner.bmp'),
+    banner: projectDir.path('assets/windows/banner.bmp'),
   });
   buildDir.write('installer.nsi', installScript);
 

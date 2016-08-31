@@ -12,6 +12,7 @@ var inject = require('gulp-inject');
 var wiredep = require('wiredep').stream;
 var angularFilesort = require('gulp-angular-filesort');
 var watch = require('gulp-watch');
+var install = require('gulp-install');
 
 var projectDir = jetpack;
 var destDir = projectDir.cwd('./build');
@@ -20,12 +21,44 @@ var destDir = projectDir.cwd('./build');
 // Tasks
 // -------------------------------------
 
-gulp.task('clean', function () {
+gulp.task('npm-install', function () {
+  return gulp.src(['./app/package.json'])
+    .pipe(install());
+});
+
+gulp.task('clean', ['npm-install'], function () {
   return destDir.dirAsync('.', {empty: true});
+});
+
+gulp.task('scripts', ['copy-app'], function () {
+  var jsSources = gulp.src([
+    './**/*.js',
+    '!./main.js',
+    '!./node_modules/**/*.js'
+  ], {cwd: __dirname + '/app/'})
+    .pipe(angularFilesort())
+    .on('error', function (err) {
+      console.log(err.toString());
+      this.emit('end');
+    });
+  var cssSources = gulp.src([
+    './**/*.css'
+  ], {cwd: __dirname + '/app/'});
+
+  return gulp.src('./app/index.html')
+    .pipe(inject(jsSources, {addRootSlash: false}))
+    .pipe(inject(cssSources, {addRootSlash: false}))
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('copy-app', ['clean'], function () {
   return projectDir.copyAsync('app', destDir.path(), {
+    overwrite: true
+  });
+});
+
+gulp.task('copy-assets', ['clean'], function () {
+  return projectDir.copyAsync('assets', destDir.path(), {
     overwrite: true
   });
 });
@@ -36,27 +69,19 @@ gulp.task('copy-bower', ['clean'], function () {
   });
 });
 
-gulp.task('inject', ['copy-app'], function () {
-  var jsSources = gulp
-    .src(['**/*.js', '!main.js'], {cwd: __dirname + '/build/'})
-    .pipe(angularFilesort()).on('error', function (err) {
+gulp.task('build', ['scripts', 'copy-assets', 'copy-bower'], function () {
+
+  return gulp.src('./build/index.html')
+    .pipe(wiredep({directory: 'build/bower_components', ignorePath: '../'}))
+    .pipe(gulp.dest('build'))
+    .on('error', function (err) {
       console.log(err.toString());
       this.emit('end');
     });
-  var cssSources = gulp
-    .src(['**/*.css'], {cwd: __dirname + '/build/'});
-
-  return gulp.src('./build/index.html')
-    .pipe(inject(jsSources, {addRootSlash: false}))
-    .pipe(inject(cssSources, {addRootSlash: false}))
-    .pipe(wiredep({directory: 'bower_components', ignorePath: '../'}))
-    .pipe(gulp.dest('build/'));
 });
 
-gulp.task('build', ['inject', 'copy-bower']);
-
 gulp.task('run', ['build'], function () {
-  watch('app/**/*.*')
+  watch(['app/**/*.*', '!app/index.html'])
     .pipe(gulp.dest('build'));
 
   childProcess.spawn(electron, ['./build'], {stdio: 'inherit'});
