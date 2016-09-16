@@ -12,9 +12,18 @@
   <!-- endinject -->
 </head>
 <body>
-<ui-view></ui-view>
-<!-- manual dependencies from NPM -->
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<md-content>
+  <md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="{{'tab.filerename' | translate}}" ui-sref="fileRename" md-active="$state.is('fileRename')"></md-tab>
+    <md-tab label="{{'tab.tester' | translate}}" ui-sref="tester" md-active="$state.is('tester')"></md-tab>
+  </md-tabs>
+
+  <ui-view></ui-view>
+</md-content>
+<!-- put NPM's jquery to window scope. workaround to electron's special environment/node integration -->
+<script>
+  window.$ = window.jQuery = require('jquery');
+</script>
 
 <!-- bower:js -->
 <!-- run `gulp inject` to automatically populate bower script dependencies -->

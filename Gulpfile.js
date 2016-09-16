@@ -81,7 +81,7 @@ gulp.task('build', ['scripts', 'copy-assets', 'copy-bower'], function () {
 });
 
 gulp.task('run', ['build'], function () {
-  watch(['app/**/*.*', '!app/index.html'])
+  watch(['app/**/*.*', 'assets/**/*.*', '!app/index.html'])
     .pipe(gulp.dest('build'));
 
   childProcess.spawn(electron, ['./build'], {stdio: 'inherit'});

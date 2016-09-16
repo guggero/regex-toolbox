@@ -1,3 +1,6 @@
 {
-  "hello": "world"
+  "filerename": "File rename",
+  "tester": "Regex tester",
+  "tab.filerename": "@:filerename",
+  "tab.tester": "@:tester"
 }

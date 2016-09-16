@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var jquery = window.jQuery = require('jquery');
-
   angular
     .module('regex-toolbox', [
       // Angular modules
@@ -12,6 +10,7 @@
       // Third-party modules
       'ui.router',
       'pascalprecht.translate',
+      'ngJsTree',
 
       // App modules
       'file-rename'

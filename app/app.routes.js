@@ -6,10 +6,15 @@
     .config(appConfig);
 
   function appConfig($stateProvider) {
+
     $stateProvider
-      .state('index', {
+      .state('fileRename', {
         url: '/',
         template: '<file-rename></file-rename>'
+      })
+      .state('tester', {
+        url: '/tester',
+        template: '<tester></tester>'
       });
   }
 
