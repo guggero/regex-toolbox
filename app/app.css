@@ -1,3 +1,53 @@
 html, body {
   height: auto;
 }
+
+.inputRow label {
+  font-weight: bolder;
+  padding-top: 5px;
+}
+
+.inputRow md-input-container[md-no-float] {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.inputRow md-input-container div.md-errors-spacer {
+  display: none;
+}
+
+.inputRow md-checkbox {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.layout-padding, .layout-row {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.previewTable {
+  min-width: 100%;
+  text-align: left;
+  margin-top: 10px;
+  font-size: 80%;
+}
+
+.previewTable thead th {
+  border-bottom: 1px solid #ccc;
+}
+
+.path {
+  font-style: italic;
+  color: gray;
+}
+
+.matched {
+  color: green;
+  font-weight: bold;
+}
+
+.replaced {
+  color: red;
+  font-weight: bold;
+}

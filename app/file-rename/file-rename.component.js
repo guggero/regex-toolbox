@@ -10,40 +10,116 @@
       controllerAs: 'vm'
     });
 
-  function FileRenameController($scope, fs, dialog) {
+  function FileRenameController(fs, path, dialog, lodash) {
     var vm = this;
 
-    vm.dirs = [];
-    vm.treeConfig = {
-      core: {
-        multiple: false,
-        animation: true,
-        error: function (error) {
-          dialog.showErrorBox('', error);
-        }
-      }
-    };
-
-    vm.treeData = [
-      {id: 'ajson1', parent: '#', text: 'Simple root node'},
-      {id: 'ajson2', parent: '#', text: 'Root node 2'},
-      {id: 'ajson3', parent: 'ajson2', text: 'Child 1'},
-      {id: 'ajson4', parent: 'ajson2', text: 'Child 2'}
-    ];
-
-    activate();
+    vm.updatePreview = updatePreview;
+    vm.startReplace = startReplace;
 
     ///////////
 
-    function activate() {
-      fs.readdir('.', function (err, files) {
-        if (err) {
-          console.log(err);
+    function updatePreview(dirChanged) {
+      if (!vm.baseDir || !vm.baseDir.path) {
+        vm.files = [];
+        return;
+      }
+
+      var basePath = vm.baseDir.path;
+
+      if (dirChanged) {
+        try {
+          var files = fs.readdirSync(basePath);
+          if (vm.listRecursive) {
+            vm.files = [];
+            walkDir(vm.files, files, basePath);
+          } else {
+            files = filterFiles(basePath, files);
+            vm.files = relativePath(files, basePath);
+          }
+        } catch (e) {
+          dialog.showErrorBox('', (e && e.message) || e);
         }
-        vm.dirs = files;
-        $scope.$apply();
+      }
+
+      if (validPattern(vm.matchPattern)) {
+        var pattern = new RegExp(vm.matchPattern, vm.caseInsensitive ? 'i' : '');
+        lodash.forEach(vm.files, function (file) {
+          file.matched = pattern.test(file.name);
+          if (file.matched && vm.replacePattern) {
+            file.preview = file.name.replace(pattern, vm.replacePattern);
+          } else {
+            file.preview = file.name;
+          }
+        });
+      } else {
+        lodash.forEach(vm.files, function (file) {
+          file.matched = false;
+          file.preview = file.name;
+        })
+      }
+    }
+
+    function startReplace() {
+      var basePath = vm.baseDir.path;
+
+      lodash.forEach(vm.files, function (file) {
+        if (file.matched) {
+          var oldPath = path.resolve(basePath, file.path, file.name);
+          var newPath = path.resolve(basePath, file.path, file.preview);
+          console.log('Renaming ' + oldPath + ' to ' + newPath);
+        }
       });
     }
 
+    function validPattern(pattern) {
+      if (pattern && pattern.length) {
+        try {
+          new RegExp(pattern);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+      return false;
+    }
+
+    function walkDir(target, files, basePath) {
+      // push all files to target
+      target.push(...relativePath(filterFiles(basePath, files), basePath));
+
+      // get directories and walk every one of them
+      var dirs = filterDirs(basePath, files);
+      lodash.forEach(dirs, function (dir) {
+        var fullDir = path.resolve(basePath, dir);
+        walkDir(target, fs.readdirSync(fullDir), fullDir);
+      });
+    }
+
+    function filterFiles(basePath, files) {
+      return lodash.filter(files, function (file) {
+        var fsFile = path.resolve(basePath, file);
+        var stat = fs.statSync(fsFile);
+        return stat && stat.isFile();
+      });
+    }
+
+    function filterDirs(basePath, files) {
+      return lodash.filter(files, function (file) {
+        var fsFile = path.resolve(basePath, file);
+        var stat = fs.statSync(fsFile);
+        return stat && stat.isDirectory();
+      });
+    }
+
+    function relativePath(files, containingDirectory) {
+      return lodash.map(files, function (file) {
+        var relativePath = path.relative(vm.baseDir.path, containingDirectory);
+        return {
+          name: file,
+          path: relativePath == '' ? '' : relativePath + path.sep
+        };
+      });
+    }
   }
+
 })();

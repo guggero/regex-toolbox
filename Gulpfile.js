@@ -10,6 +10,7 @@ var os = require('os');
 var release_windows = require('./build.windows');
 var inject = require('gulp-inject');
 var wiredep = require('wiredep').stream;
+var es6transpiler = require('gulp-es6-transpiler');
 var angularFilesort = require('gulp-angular-filesort');
 var watch = require('gulp-watch');
 var install = require('gulp-install');
@@ -36,6 +37,11 @@ gulp.task('scripts', ['copy-app'], function () {
     '!./main.js',
     '!./node_modules/**/*.js'
   ], {cwd: __dirname + '/app/'})
+    .pipe(es6transpiler({
+      globals: {
+        angular: true
+      }
+    }))
     .pipe(angularFilesort())
     .on('error', function (err) {
       console.log(err.toString());

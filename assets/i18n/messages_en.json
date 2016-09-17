@@ -1,6 +1,18 @@
 {
-  "filerename": "File rename",
+  "fileRename": "File rename",
   "tester": "Regex tester",
-  "tab.filerename": "@:filerename",
-  "tab.tester": "@:tester"
+  "baseDir": "Base directory",
+  "listRecursive": "List files recursively",
+  "caseInsensitive": "Case insensitive",
+  "preview": "Preview",
+  "fileName": "File name",
+  "startReplace": "Start replace",
+  "match.pattern": "Match pattern",
+  "match.pattern.regex": "example: (.*).JPG",
+  "replace.pattern": "Replace pattern",
+  "replace.pattern.regex": "example: $1.jpg",
+  "tab.fileRename": "@:fileRename",
+  "tab.tester": "@:tester",
+  "inputFolder.noFolderChosen": "No folder chosen",
+  "inputFolder.chooseFolder": "Choose folder"
 }

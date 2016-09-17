@@ -10,10 +10,11 @@
       // Third-party modules
       'ui.router',
       'pascalprecht.translate',
-      'ngJsTree',
+      'ngLodash',
 
       // App modules
-      'file-rename'
+      'file-rename',
+      'input-folder'
     ]);
 
 })();

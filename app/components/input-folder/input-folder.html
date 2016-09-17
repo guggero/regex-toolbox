@@ -1,0 +1,13 @@
+<div layout="row" layout-align="start start">
+  <input type="file" class="ng-hide" webkitdirectory>
+  <md-input-container md-no-float flex>
+    <input type="text"
+           ng-model="fileName"
+           placeholder="{{'inputFolder.noFolderChosen' | translate}}"
+           ng-readonly="true">
+  </md-input-container>
+  <md-button flex="none"
+             class="md-raised md-primary"
+             translate="inputFolder.chooseFolder">
+  </md-button>
+</div>

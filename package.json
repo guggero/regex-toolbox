@@ -33,6 +33,7 @@
     "fs-jetpack": "^0.9.2",
     "gulp": "^3.9.1",
     "gulp-angular-filesort": "^1.1.1",
+    "gulp-es6-transpiler": "^1.0.1",
     "gulp-inject": "^4.1.0",
     "gulp-install": "^0.6.0",
     "gulp-load-plugins": "^1.2.4",

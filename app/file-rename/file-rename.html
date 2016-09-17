@@ -1,3 +1,55 @@
-<div js-tree="vm.treeConfig" ng-model="vm.treeData" tree="vm.treeInstance">
+<div layout="column" layout-padding>
+  <!-- base directory -->
+  <div layout="row" class="inputRow" layout-align="start center">
+    <label flex="20" translate="baseDir"></label>
+    <input-folder flex="60" ng-model="vm.baseDir" on-change="vm.updatePreview(true)"></input-folder>
+    <md-checkbox ng-model="vm.listRecursive" layout="row" ng-change="vm.updatePreview(true)">
+      {{'listRecursive' | translate}}
+    </md-checkbox>
+  </div>
 
+  <!-- match pattern -->
+  <div layout="row" class="inputRow" layout-align="start center">
+    <label flex="20" translate="match.pattern"></label>
+    <md-input-container md-no-float flex="60">
+      <input ng-model="vm.matchPattern"
+             ng-change="vm.updatePreview()"
+             placeholder="{{'match.pattern.regex' | translate}}"/>
+    </md-input-container>
+    <md-checkbox ng-model="vm.caseInsensitive" ng-change="vm.updatePreview()" layout="row">
+      {{'caseInsensitive' | translate}}
+    </md-checkbox>
+  </div>
+
+  <!-- replace pattern -->
+  <div layout="row" class="inputRow" layout-align="start center">
+    <label flex="20" translate="replace.pattern"></label>
+    <md-input-container md-no-float flex="60">
+      <input ng-model="vm.replacePattern"
+             placeholder="{{'replace.pattern.regex' | translate}}"
+             ng-change="vm.updatePreview()"/>
+    </md-input-container>
+    <md-button class="md-primary md-raised" ng-click="vm.startReplace()" translate="startReplace"></md-button>
+  </div>
+
+  <table class="previewTable">
+    <thead>
+    <tr>
+      <th translate="fileName"></th>
+      <th translate="preview"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="file in vm.files">
+      <td>
+        <span class="path" ng-bind="file.path"></span>
+        <span ng-class="{'matched': file.matched}">{{file.name}}</span>
+      </td>
+      <td>
+        <span class="path" ng-bind="file.path"></span>
+        <span ng-class="{'replaced': file.matched}">{{file.preview}}</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
