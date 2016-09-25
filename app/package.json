@@ -1,9 +1,0 @@
-{
-  "name": "regex-toolbox",
-  "version": "1.0.0",
-  "description": "Rename files with regular expressions.",
-  "main": "main.js",
-  "dependencies": {
-    "jquery": "^3.1.0"
-  }
-}

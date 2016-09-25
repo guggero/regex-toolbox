@@ -7,40 +7,54 @@ var jetpack = require('fs-jetpack');
 var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
 var os = require('os');
-var release_windows = require('./build.windows');
 var inject = require('gulp-inject');
 var wiredep = require('wiredep').stream;
-var es6transpiler = require('gulp-es6-transpiler');
+var babel = require('gulp-babel');
 var angularFilesort = require('gulp-angular-filesort');
 var watch = require('gulp-watch');
-var install = require('gulp-install');
+var packager = require('electron-packager');
+var pkg = require('./package.json');
+var copyDeps = require('gulp-npm-copy-deps');
+var envs = require('gulp-environments');
 
 var projectDir = jetpack;
 var destDir = projectDir.cwd('./build');
+var distDir = projectDir.cwd('./dist');
 
 // -------------------------------------
 // Tasks
 // -------------------------------------
 
-gulp.task('npm-install', function () {
-  return gulp.src(['./app/package.json'])
-    .pipe(install());
-});
-
-gulp.task('clean', ['npm-install'], function () {
+gulp.task('clean', [], function () {
   return destDir.dirAsync('.', {empty: true});
 });
 
-gulp.task('scripts', ['copy-app'], function () {
+gulp.task('clean-dist', [], function () {
+  return distDir.dirAsync('.', {empty: true});
+});
+
+gulp.task('copy-npm-deps', ['clean'], function () {
+
+  var starterPackageJson = {
+    name: pkg.name,
+    version: pkg.version,
+    production: envs.production(),
+    main: "main.js"
+  };
+
+  jetpack.write('./build/package.json', starterPackageJson);
+
+  return copyDeps('./', './build');
+});
+
+gulp.task('scripts', ['copy-app', 'copy-npm-deps'], function () {
   var jsSources = gulp.src([
     './**/*.js',
     '!./main.js',
     '!./node_modules/**/*.js'
   ], {cwd: __dirname + '/app/'})
-    .pipe(es6transpiler({
-      globals: {
-        angular: true
-      }
+    .pipe(babel({
+      presets: ['es2015']
     }))
     .pipe(angularFilesort())
     .on('error', function (err) {
@@ -87,21 +101,26 @@ gulp.task('build', ['scripts', 'copy-assets', 'copy-bower'], function () {
 });
 
 gulp.task('run', ['build'], function () {
-  watch(['app/**/*.*', 'assets/**/*.*', '!app/index.html'])
-    .pipe(gulp.dest('build'));
+  watch([
+    'app/**/*.*',
+    'assets/**/*.*',
+    '!app/index.html'
+  ]).pipe(gulp.dest('build'));
 
-  childProcess.spawn(electron, ['./build'], {stdio: 'inherit'});
+  return childProcess.spawn(electron, ['./build'], {stdio: 'inherit'});
 });
 
-gulp.task('build-electron', ['build'], function () {
-  switch (os.platform()) {
-    case 'darwin':
-      // execute build.osx.js
-      break;
-    case 'linux':
-      //execute build.linux.js
-      break;
-    case 'win32':
-      return release_windows.build();
-  }
+gulp.task('build-electron', ['clean-dist', 'build'], function () {
+  return packager({
+    dir: 'build',
+    all: 'true',
+    'app-copyright': '© ' + (new Date()).getFullYear() + ' ' + pkg.author.name,
+    out: 'dist',
+    prune: false
+  }, function (err, appPaths) {
+    if (err) {
+      console.error(err);
+    }
+    console.log('Created directories ' + appPaths);
+  });
 });
