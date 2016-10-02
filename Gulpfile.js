@@ -16,6 +16,7 @@ var packager = require('electron-packager');
 var pkg = require('./package.json');
 var copyDeps = require('gulp-npm-copy-deps');
 var envs = require('gulp-environments');
+var zip = require('gulp-zip');
 
 var projectDir = jetpack;
 var destDir = projectDir.cwd('./build');
@@ -109,7 +110,6 @@ gulp.task('run', ['build'], function () {
 
   return childProcess.spawn(electron, ['./build'], {stdio: 'inherit'});
 });
-
 gulp.task('build-electron', ['clean-dist', 'build'], function () {
   return packager({
     dir: 'build',
@@ -122,5 +122,13 @@ gulp.task('build-electron', ['clean-dist', 'build'], function () {
       console.error(err);
     }
     console.log('Created directories ' + appPaths);
+  });
+});
+
+gulp.task('package', ['build-electron'], function () {
+  jetpack.list('dist').forEach(function (dir) {
+    gulp.src('dist/' + dir + '/*')
+      .pipe(zip(dir + '.zip'))
+      .pipe(gulp.dest('dist'));
   });
 });
