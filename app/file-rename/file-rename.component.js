@@ -67,6 +67,7 @@
           var oldPath = path.resolve(basePath, file.path, file.name);
           var newPath = path.resolve(basePath, file.path, file.preview);
           console.log('Renaming ' + oldPath + ' to ' + newPath);
+          fs.renameSync(oldPath, newPath);
         }
       });
     }
