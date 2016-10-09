@@ -13,6 +13,7 @@
       'ngLodash',
 
       // App modules
+      'regex-toolbox.constants',
       'file-rename',
       'input-folder'
     ]);
