@@ -1,11 +1,11 @@
 {
   "name": "regex-toolbox",
-  "version": "1.0.0",
+  "version": "1.0.0-beta",
   "description": "Rename files with regular expressions.",
   "main": "main.js",
   "scripts": {
     "start": "gulp run",
-    "package": "gulp build-electron --env production"
+    "package": "gulp package --env production"
   },
   "repository": {
     "type": "git",

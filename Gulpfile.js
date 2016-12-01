@@ -110,7 +110,7 @@ gulp.task('run', ['build'], function () {
 
   return childProcess.spawn(electron, ['./build'], {stdio: 'inherit'});
 });
-gulp.task('build-electron', ['clean-dist', 'build'], function () {
+gulp.task('build-electron', ['clean-dist', 'build'], function (done) {
   return packager({
     dir: 'build',
     all: 'true',
@@ -122,6 +122,7 @@ gulp.task('build-electron', ['clean-dist', 'build'], function () {
       console.error(err);
     }
     console.log('Created directories ' + appPaths);
+    done();
   });
 });
 
