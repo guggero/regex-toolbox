@@ -1,26 +1,26 @@
 'use strict';
 
-var childProcess = require('child_process');
-var electron = require('electron-prebuilt');
-var gulp = require('gulp');
-var jetpack = require('fs-jetpack');
-var usemin = require('gulp-usemin');
-var uglify = require('gulp-uglify');
-var os = require('os');
-var inject = require('gulp-inject');
-var wiredep = require('wiredep').stream;
-var babel = require('gulp-babel');
-var angularFilesort = require('gulp-angular-filesort');
-var watch = require('gulp-watch');
-var packager = require('electron-packager');
-var pkg = require('./package.json');
-var copyDeps = require('gulp-npm-copy-deps');
-var envs = require('gulp-environments');
-var zip = require('gulp-zip');
+let childProcess = require('child_process');
+let electron = require('electron-prebuilt');
+let gulp = require('gulp');
+let jetpack = require('fs-jetpack');
+let usemin = require('gulp-usemin');
+let uglify = require('gulp-uglify');
+let os = require('os');
+let inject = require('gulp-inject');
+let wiredep = require('wiredep').stream;
+let babel = require('gulp-babel');
+let angularFilesort = require('gulp-angular-filesort');
+let watch = require('gulp-watch');
+let packager = require('electron-packager');
+let pkg = require('./package.json');
+let copyDeps = require('gulp-npm-copy-deps');
+let envs = require('gulp-environments');
+let zip = require('gulp-zip');
 
-var projectDir = jetpack;
-var destDir = projectDir.cwd('./build');
-var distDir = projectDir.cwd('./dist');
+let projectDir = jetpack;
+let destDir = projectDir.cwd('./build');
+let distDir = projectDir.cwd('./dist');
 
 // -------------------------------------
 // Tasks
@@ -36,7 +36,7 @@ gulp.task('clean-dist', [], function () {
 
 gulp.task('copy-npm-deps', ['clean'], function () {
 
-  var starterPackageJson = {
+  let starterPackageJson = {
     name: pkg.name,
     version: pkg.version,
     production: envs.production(),
@@ -49,7 +49,7 @@ gulp.task('copy-npm-deps', ['clean'], function () {
 });
 
 gulp.task('scripts', ['copy-app', 'copy-npm-deps'], function () {
-  var jsSources = gulp.src([
+  let jsSources = gulp.src([
     './**/*.js',
     '!./main.js',
     '!./node_modules/**/*.js'
@@ -62,7 +62,7 @@ gulp.task('scripts', ['copy-app', 'copy-npm-deps'], function () {
       console.log(err.toString());
       this.emit('end');
     });
-  var cssSources = gulp.src([
+  let cssSources = gulp.src([
     './**/*.css'
   ], {cwd: __dirname + '/app/'});
 

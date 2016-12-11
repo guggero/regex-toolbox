@@ -11,7 +11,7 @@
     });
 
   function FileRenameController(fs, path, dialog, lodash, fileRenameService) {
-    var vm = this;
+    let vm = this;
 
     vm.updatePreview = updatePreview;
     vm.startReplace = startReplace;
@@ -24,19 +24,19 @@
         return;
       }
 
-      var basePath = vm.baseDir.path;
+      let basePath = vm.baseDir.path;
 
       if (dirChanged) {
-        //try {
-        vm.files = fileRenameService.listFilesRelativeToPath(basePath, vm.listRecursive);
-        /*} catch (e) {
-         dialog.showErrorBox('', (e && e.message) || e);
-         console.error(e);
-         }*/
+        try {
+          vm.files = fileRenameService.listFilesRelativeToPath(basePath, vm.listRecursive);
+        } catch (e) {
+          dialog.showErrorBox('', (e && e.message) || e);
+          console.error(e);
+        }
       }
 
       if (validPattern(vm.matchPattern)) {
-        var pattern = new RegExp(vm.matchPattern, vm.caseInsensitive ? 'i' : '');
+        let pattern = new RegExp(vm.matchPattern, vm.caseInsensitive ? 'i' : '');
         lodash.forEach(vm.files, function (file) {
           file.matched = pattern.test(file.name);
           if (file.matched && vm.replacePattern) {
@@ -54,13 +54,12 @@
     }
 
     function startReplace() {
-      var basePath = vm.baseDir.path;
+      let basePath = vm.baseDir.path;
 
       lodash.forEach(vm.files, function (file) {
         if (file.matched) {
-          var oldPath = path.resolve(basePath, file.path, file.name);
-          var newPath = path.resolve(basePath, file.path, file.preview);
-          console.log('Renaming ' + oldPath + ' to ' + newPath);
+          let oldPath = path.resolve(basePath, file.path, file.name);
+          let newPath = path.resolve(basePath, file.path, file.preview);
           fs.renameSync(oldPath, newPath);
         }
       });

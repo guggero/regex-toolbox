@@ -18,8 +18,8 @@
     //////////////////////////
 
     function listFilesRelativeToPath(basePath, listRecursive) {
-      var target = null;
-      var files = fs.readdirSync(basePath);
+      let target = null;
+      let files = fs.readdirSync(basePath);
       if (listRecursive) {
         target = [];
         walkDir(target, files, basePath, basePath);
@@ -35,16 +35,16 @@
       target.push(...relativePath(rootPath, getFilesOnly(currentPath, files), currentPath));
 
       // get directories and walk every one of them
-      var dirs = getDirsOnly(currentPath, files);
+      let dirs = getDirsOnly(currentPath, files);
       lodash.forEach(dirs, function (dir) {
-        var fullDir = path.resolve(currentPath, dir);
+        let fullDir = path.resolve(currentPath, dir);
         walkDir(target, fs.readdirSync(fullDir), fullDir, rootPath);
       });
     }
 
     function relativePath(rootPath, files, containingDirectory) {
       return lodash.map(files, function (file) {
-        var relativePath = path.relative(rootPath, containingDirectory);
+        let relativePath = path.relative(rootPath, containingDirectory);
         return {
           name: file,
           path: relativePath == '' ? '' : relativePath + path.sep
@@ -62,11 +62,10 @@
 
     function filterByStat(basePath, files, statFn) {
       return lodash.filter(files, function (file) {
-        var fsFile = path.resolve(basePath, file);
-        var stat = fs.statSync(fsFile);
+        let fsFile = path.resolve(basePath, file);
+        let stat = fs.statSync(fsFile);
         return stat && stat[statFn]();
       });
     }
   }
-
 })();

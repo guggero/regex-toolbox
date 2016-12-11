@@ -15,9 +15,9 @@
     });
 
   function inputFolderLink(scope, element) {
-    var input = element.find('input[type=file]');
-    var button = element.find('button');
-    var textInput = element.find('input[type=text]');
+    let input = element.find('input[type=file]');
+    let button = element.find('button');
+    let textInput = element.find('input[type=text]');
 
     function selectFolder() {
       input.click();
@@ -29,7 +29,7 @@
     }
 
     input.on('change', function (e) {
-      var files = e.target.files;
+      let files = e.target.files;
       if (files[0]) {
         scope.fileName = files[0].path;
       } else {
