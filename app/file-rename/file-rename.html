@@ -40,7 +40,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="file in vm.files">
+    <tr ng-repeat="file in vm.files | orderBy: ['path','name']">
       <td>
         <span class="path" ng-bind="file.path"></span>
         <span ng-class="{'matched': file.matched}">{{file.name}}</span>
