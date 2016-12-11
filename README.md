@@ -1,6 +1,7 @@
 # regex-toolbox
 
 [![Code Climate](https://codeclimate.com/github/guggero/regex-toolbox/badges/gpa.svg)](https://codeclimate.com/github/guggero/regex-toolbox)
+[![Build Status](https://travis-ci.org/guggero/regex-toolbox.svg?branch=master)](https://travis-ci.org/guggero/regex-toolbox)
 
 ## What does it do?
 

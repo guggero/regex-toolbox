@@ -1,0 +1,17 @@
+language: node_js
+
+node_js:
+  - "4.4"
+
+script:
+  - npm run package
+
+before_script:
+  - npm install -g bower
+  - npm install
+  - bower install
+
+cache:
+  directories:
+    - node_modules
+    - bower_components
