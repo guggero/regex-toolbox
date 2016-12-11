@@ -1,8 +1,30 @@
 # regex-toolbox
 
-**This app was created based on the minimal Electron application example**
+[![Code Climate](https://codeclimate.com/github/guggero/regex-toolbox/badges/gpa.svg)](https://codeclimate.com/github/guggero/regex-toolbox)
 
-See the [Quick Start Guide](http://electron.atom.io/docs/latest/tutorial/quick-start) within the Electron documentation.
+## What does it do?
+
+I started this project because I needed something like the awesome little tool [RegexRenamer](http://regexrenamer.sourceforge.net/)
+but with the ability to rename files recursively in many folders.
+
+So at the moment it just does just that, recursively rename files with a Regular Expression, including a live preview.
+
+![Screenshot 1](doc/screenshot_001.png)
+
+But in the end Regex based renaming will just be one of many features. 
+
+The following features will be implemented soon:
+* Regex tester: Test your regular expression against a test string
+* Regex search/replace: Find and replace text in files recursively
+* whatever features you guys think should be implemented
+
+## Why electron?
+
+I wanted to build a multi platform desktop application. Why desktop application you ask? Because local file system, duh! :)  
+So as a Java developer I could have built a Java GUI with Swing or SWT... Nope, been there, done that, never again if I don't have to!  
+I always liked web GUIs better. So when I heard about electron (nodejs + Chrome) I knew that was the platform to go for.
+
+I'm well aware that a 50MB download for a simple renaming tool is absolute overkill ;-)
 
 ## To Use
 
