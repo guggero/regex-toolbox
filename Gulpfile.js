@@ -17,6 +17,7 @@ let pkg = require('./package.json');
 let copyDeps = require('gulp-npm-copy-deps');
 let envs = require('gulp-environments');
 let zip = require('gulp-zip');
+let KarmaServer = require('karma').Server;
 
 let projectDir = jetpack;
 let destDir = projectDir.cwd('./build');
@@ -101,6 +102,13 @@ gulp.task('build', ['scripts', 'copy-assets', 'copy-bower'], function () {
     });
 });
 
+gulp.task('test', ['build'], function (done) {
+  return new KarmaServer({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
 gulp.task('run', ['build'], function () {
   watch([
     'app/**/*.*',
@@ -110,6 +118,7 @@ gulp.task('run', ['build'], function () {
 
   return childProcess.spawn(electron, ['./build'], {stdio: 'inherit'});
 });
+
 gulp.task('build-electron', ['clean-dist', 'build'], function (done) {
   return packager({
     dir: 'build',
@@ -126,7 +135,7 @@ gulp.task('build-electron', ['clean-dist', 'build'], function (done) {
   });
 });
 
-gulp.task('package', ['build-electron'], function () {
+gulp.task('package', ['test', 'build-electron'], function () {
   jetpack.list('dist').forEach(function (dir) {
     gulp.src('dist/' + dir + '/*')
       .pipe(zip(dir + '.zip'))
